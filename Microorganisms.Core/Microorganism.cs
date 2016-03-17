@@ -13,7 +13,6 @@ namespace Microorganisms.Core
 
 
         public Point Position { get; set; }
-        public Point Velocity { get; set; }
 
         public int Width { get; protected set; }
         public int Height { get; protected set; }

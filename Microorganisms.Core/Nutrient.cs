@@ -28,7 +28,6 @@ namespace Microorganisms.Core
             this.brush = new SolidBrush(this.Color);
             this.Width = 10;
             this.Height = 10;
-            this.Velocity = new Point(0, 0);
         }
 
         private static Color GetRandomColor()

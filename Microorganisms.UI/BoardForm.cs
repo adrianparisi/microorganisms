@@ -37,7 +37,8 @@ namespace Microorganisms.UI
         private void BoardForm_Load(object sender, EventArgs e)
         {
             this.cell = new Cell(this.graphics);
-            this.world = new World(this.graphics, this.ClientSize);
+            var size = new Size(this.ClientSize.Width * 2, this.ClientSize.Height * 2);
+            this.world = new World(this.graphics, size);
             this.world.Add(this.cell);
 
             this.timer.Start();
@@ -51,7 +52,18 @@ namespace Microorganisms.UI
         private void timer_Tick(object sender, EventArgs e)
         {
             this.UpdateGame();
-            
+            this.CalculateFps();
+        }
+
+        private void UpdateGame()
+        {
+            this.world.Draw();
+            this.MoveCell();
+            this.Eat();
+        }
+
+        private void CalculateFps()
+        {
             float elapsed = (float)watch.ElapsedMilliseconds / 1000;
             float fps = 1 / elapsed;
             this.deltaFPSTime += elapsed;
@@ -61,13 +73,6 @@ namespace Microorganisms.UI
                 this.lblFps.Text = fps.ToString("N2");
                 this.deltaFPSTime -= 1;
             }
-        }
-
-        private void UpdateGame()
-        {
-            this.world.Draw();
-            this.MoveCell();
-            this.Eat();
         }
 
         private void MoveCell()

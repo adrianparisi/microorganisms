@@ -9,6 +9,9 @@ namespace Microorganisms.Core
 {
     public class Cell : Microorganism
     {
+        public Point Velocity { get; set; }
+
+
         public Cell(Graphics graphic)
             : base(graphic, 20)
         {
@@ -64,6 +67,11 @@ namespace Microorganisms.Core
                 this.Position.Y <= 0 || this.Position.Y + this.Radius >= world.Height;
         }
 
+        public bool CanEat(Microorganism microorganism)
+        {
+            return this.Mass - (this.Mass / 1.15) > microorganism.Mass;
+        }
+
         #endregion Collisions
 
         #region Draw
@@ -77,8 +85,7 @@ namespace Microorganisms.Core
 
         private void DrawCell()
         {
-            Rectangle rectangle = new Rectangle(this.Position.X, this.Position.Y, this.Width, this.Height);
-            this.graphics.FillEllipse(Brushes.Black, rectangle);
+            this.graphics.FillEllipse(Brushes.Black, this.Position.X, this.Position.Y, this.Width, this.Height);
         }
 
         private void DrawBorder()

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microorganisms.Core.Properties;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,7 +71,7 @@ namespace Microorganisms.Core
         {
             Point? position = null;
 
-            while (!position.HasValue) // TODO validate collision with cells
+            while (!position.HasValue) // TODO validate collisions
             {
                 position = new Point(random.Next(this.Size.Width), random.Next(this.Size.Height));
             }
@@ -86,9 +88,9 @@ namespace Microorganisms.Core
         public List<Microorganism> GetFood(Cell cell)
         {
             List<Microorganism> removed = this.microorganisms
-                .Where(m => cell.Mass > m.Mass)
+                .Where(m => cell.CanEat(m))
                 .Where(m => cell.Collision(m))
-                .Where(m => m != cell)
+                .Where(m => cell != m)
                 .ToList();
 
             foreach (Microorganism microorganism in removed)
@@ -100,9 +102,18 @@ namespace Microorganisms.Core
         private void Remove(Microorganism microorganism)
         {
             this.microorganisms.Remove(microorganism);
+            this.Replace(microorganism);
+        }
+
+        private void Replace(Microorganism microorganism)
+        {
+            Type type = microorganism.GetType();
 
             if (microorganism.GetType() == typeof(Nutrient))
                 this.AddNutrient();
+
+            else if (microorganism.GetType() == typeof(Virus))
+                this.AddVirus();
         }
 
         #region Draw
@@ -110,9 +121,27 @@ namespace Microorganisms.Core
         public void Draw()
         {
             this.graphics.Clear(Color.White);
+            this.DrawBackground();
+            this.DrawBorder();
             this.Draw<Nutrient>();
             this.Draw<Cell>();
             this.Draw<Virus>();
+        }
+
+        private void DrawBackground()
+        {
+            TextureBrush brush = new TextureBrush(Resources.Background);
+            Pen blackPen = new Pen(Color.Black);
+            brush.WrapMode = WrapMode.TileFlipXY;
+            this.graphics.FillRectangle(brush, new Rectangle(0, 0, this.Size.Width, this.Size.Height));
+        }
+
+        private void DrawBorder()
+        {
+            this.graphics.DrawLine(Pens.LightGray, 0, 0, this.Size.Width, 0);
+            this.graphics.DrawLine(Pens.LightGray, 0, 0, 0, this.Size.Height);
+            this.graphics.DrawLine(Pens.LightGray, 0, this.Size.Height, this.Size.Width, this.Size.Height);
+            this.graphics.DrawLine(Pens.LightGray, this.Size.Width, 0, this.Size.Width, this.Size.Height);
         }
 
         private void Draw<T>() where T : Microorganism
