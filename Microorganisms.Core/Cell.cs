@@ -76,29 +76,30 @@ namespace Microorganisms.Core
 
         #region Draw
 
-        public override void Draw()
+        public override void Draw(Size delta)
         {
-            DrawCell();
-            DrawBorder();
-            DrawMass();
+            DrawCell(delta);
+            DrawBorder(delta);
+            DrawMass(delta);
         }
 
-        private void DrawCell()
+        private void DrawCell(Size delta)
         {
-            this.graphics.FillEllipse(Brushes.Black, this.Position.X, this.Position.Y, this.Width, this.Height);
+            var rectangle = new Rectangle(this.Position + delta, new Size(this.Width, this.Height));
+            this.graphics.FillEllipse(Brushes.Black, rectangle);
         }
 
-        private void DrawBorder()
+        private void DrawBorder(Size delta)
         {
-            Rectangle rectangle = new Rectangle(this.Position.X, this.Position.Y, this.Width, this.Height);
+            var rectangle = new Rectangle(this.Position + delta, new Size(this.Width, this.Height));
             rectangle.Inflate(-1, -1);
             this.graphics.FillEllipse(Brushes.Yellow, rectangle);
         }
 
-        private void DrawMass()
+        private void DrawMass(Size delta)
         {
             Font font = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Point);
-            Rectangle rectangle = new Rectangle(this.Position.X, this.Position.Y, this.Width, this.Height);
+            var rectangle = new Rectangle(this.Position + delta, new Size(this.Width, this.Height));
             StringFormat format = new StringFormat();
             format.Alignment = StringAlignment.Center;
             format.LineAlignment = StringAlignment.Center;

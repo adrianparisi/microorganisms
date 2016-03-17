@@ -41,6 +41,6 @@ namespace Microorganisms.Core
             this.Mass = mass;
         }
 
-        public abstract void Draw();
+        public abstract void Draw(Size delta);
     }
 }

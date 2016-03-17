@@ -9,14 +9,20 @@ using System.Threading.Tasks;
 
 namespace Microorganisms.Core
 {
+    /// <summary>
+    /// The place where live all the microorganisms.
+    /// </summary>
     public class World
     {
         private Random random = new Random();
         private Graphics graphics;
+        private TextureBrush backgroundBrush;
         private List<Microorganism> microorganisms = new List<Microorganism>();
+        private Cell cell;
 
 
         public Size Size { get; private set; }
+        public Size Client { get; private set; }
 
         public Point Center
         {
@@ -26,13 +32,21 @@ namespace Microorganisms.Core
 
         #region Initialization
 
-        public World(Graphics graphics, Size size)
+        public World(Graphics graphics, Size world, Size client)
         {
-            this.graphics = graphics;
-            this.Size = size;
+            this.Size = world;
+            this.Client = client;
 
+            this.InitializeGraphics(graphics);
             this.InitializeNutrients();
             this.InitializeVirus();
+        }
+
+        private void InitializeGraphics(Graphics graphics)
+        {
+            this.graphics = graphics;
+            this.backgroundBrush = new TextureBrush(Resources.Background);
+            this.backgroundBrush.WrapMode = WrapMode.TileFlipXY;
         }
 
         private void InitializeNutrients()
@@ -52,6 +66,8 @@ namespace Microorganisms.Core
         }
 
         #endregion Initialization
+        
+        #region Add
 
         private void AddNutrient()
         {
@@ -83,7 +99,12 @@ namespace Microorganisms.Core
         {
             cell.Position = this.Center;
             this.microorganisms.Add(cell);
+            this.cell = cell;
         }
+
+        #endregion Add
+
+        #region Remove
 
         public List<Microorganism> GetFood(Cell cell)
         {
@@ -116,40 +137,49 @@ namespace Microorganisms.Core
                 this.AddVirus();
         }
 
+        #endregion Remove
+
         #region Draw
 
         public void Draw()
         {
+            Size delta = this.GetDeltaClient();
             this.graphics.Clear(Color.White);
-            this.DrawBackground();
-            this.DrawBorder();
-            this.Draw<Nutrient>();
-            this.Draw<Cell>();
-            this.Draw<Virus>();
+            this.DrawBackground(delta);
+            this.DrawBorder(delta);
+            this.Draw<Nutrient>(delta);
+            this.Draw<Cell>(delta);
+            this.Draw<Virus>(delta);
         }
 
-        private void DrawBackground()
+        private Size GetDeltaClient()
         {
-            TextureBrush brush = new TextureBrush(Resources.Background);
-            Pen blackPen = new Pen(Color.Black);
-            brush.WrapMode = WrapMode.TileFlipXY;
-            this.graphics.FillRectangle(brush, new Rectangle(0, 0, this.Size.Width, this.Size.Height));
+            int x = (this.cell.Center.X - this.Client.Width / 2) * -1;
+            int y = (this.cell.Center.Y - this.Client.Height / 2) * -1;
+
+            return new Size(x, y);
         }
 
-        private void DrawBorder()
+        private void DrawBackground(Size delta)
         {
-            this.graphics.DrawLine(Pens.LightGray, 0, 0, this.Size.Width, 0);
-            this.graphics.DrawLine(Pens.LightGray, 0, 0, 0, this.Size.Height);
-            this.graphics.DrawLine(Pens.LightGray, 0, this.Size.Height, this.Size.Width, this.Size.Height);
-            this.graphics.DrawLine(Pens.LightGray, this.Size.Width, 0, this.Size.Width, this.Size.Height);
+            var rectangle = new Rectangle(new Point(0, 0), this.Size + this.Size);
+            this.graphics.FillRectangle(this.backgroundBrush, rectangle);
         }
 
-        private void Draw<T>() where T : Microorganism
+        private void DrawBorder(Size delta)
+        {
+            this.graphics.DrawLine(Pens.Gray, new Point(0, 0) + delta, new Point(this.Size.Width, 0) + delta);
+            this.graphics.DrawLine(Pens.Gray, new Point(0, 0) + delta, new Point(0, this.Size.Height) + delta);
+            this.graphics.DrawLine(Pens.Gray, new Point(0, this.Size.Height) + delta, new Point(this.Size.Width, this.Size.Height) + delta);
+            this.graphics.DrawLine(Pens.Gray, new Point(this.Size.Width, 0) + delta, new Point(this.Size.Width, this.Size.Height) + delta);
+        }
+
+        private void Draw<T>(Size delta) where T : Microorganism
         {
             var microorganisms = this.microorganisms.OfType<T>();
 
             foreach (Microorganism microorganism in microorganisms)
-                microorganism.Draw();
+                microorganism.Draw(delta);
         }
 
         #endregion Draw

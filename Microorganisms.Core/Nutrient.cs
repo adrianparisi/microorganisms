@@ -37,9 +37,9 @@ namespace Microorganisms.Core
 
         #endregion Initialization
 
-        public override void Draw()
+        public override void Draw(Size delta)
         {
-            Rectangle rectangle = new Rectangle(this.Position.X, this.Position.Y, this.Radius * 2, this.Radius * 2);
+            var rectangle = new Rectangle(this.Position + delta, new Size(this.Radius * 2, this.Radius * 2));
             this.graphics.FillEllipse(this.brush, rectangle);
         }
     }

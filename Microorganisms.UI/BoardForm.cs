@@ -38,7 +38,7 @@ namespace Microorganisms.UI
         {
             this.cell = new Cell(this.graphics);
             var size = new Size(this.ClientSize.Width * 2, this.ClientSize.Height * 2);
-            this.world = new World(this.graphics, size);
+            this.world = new World(this.graphics, size, this.ClientSize);
             this.world.Add(this.cell);
 
             this.timer.Start();
