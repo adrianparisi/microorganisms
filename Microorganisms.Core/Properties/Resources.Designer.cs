@@ -69,5 +69,15 @@ namespace Microorganisms.Core.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Virus64x64 {
+            get {
+                object obj = ResourceManager.GetObject("Virus64x64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
