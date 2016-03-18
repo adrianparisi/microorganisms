@@ -1,14 +1,9 @@
-﻿using System;
+﻿using Microorganisms.Core;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Microorganisms.Core;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Microorganisms.UI
 {
@@ -120,7 +115,7 @@ namespace Microorganisms.UI
 
         #endregion Update
 
-        #region Keys
+        #region Keyboard
 
         private void BoardForm_KeyDown(object sender, KeyEventArgs e)
         {
@@ -183,6 +178,26 @@ namespace Microorganisms.UI
             }
         }
 
-        #endregion Keys
+        #endregion Keyboard
+
+        #region Mouse
+
+        private void BoardForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            this.world.Joistick.Enable(e.Location);
+        }
+
+        private void BoardForm_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.world.Joistick.Disable();
+        }
+
+        private void BoardForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                this.world.Joistick.Move(e.Location);
+        }
+
+        #endregion Mouse
     }
 }
