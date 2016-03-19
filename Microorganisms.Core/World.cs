@@ -144,7 +144,6 @@ namespace Microorganisms.Core
         public void Draw()
         {
             Size delta = this.GetDeltaClient();
-            this.graphics.Clear(Color.White);
             this.DrawBackground(delta);
             this.DrawBorder(delta);
             this.Draw<Nutrient>(delta);
@@ -153,6 +152,10 @@ namespace Microorganisms.Core
             this.Joistick.Draw();
         }
 
+        /// <summary>
+        /// Gets the difference between the absolute coordinates from 
+        /// the world and the relative coordinates of the user client.
+        /// </summary>
         private Size GetDeltaClient()
         {
             int x = (this.cell.Center.X - this.Client.Width / 2) * -1;
@@ -169,10 +172,8 @@ namespace Microorganisms.Core
 
         private void DrawBorder(Size delta)
         {
-            this.graphics.DrawLine(Pens.Gray, new Point(0, 0) + delta, new Point(this.Size.Width, 0) + delta);
-            this.graphics.DrawLine(Pens.Gray, new Point(0, 0) + delta, new Point(0, this.Size.Height) + delta);
-            this.graphics.DrawLine(Pens.Gray, new Point(0, this.Size.Height) + delta, new Point(this.Size.Width, this.Size.Height) + delta);
-            this.graphics.DrawLine(Pens.Gray, new Point(this.Size.Width, 0) + delta, new Point(this.Size.Width, this.Size.Height) + delta);
+            var rectangle = new Rectangle(new Point(0, 0) + delta, this.Size);
+            this.graphics.DrawRectangle(Pens.Gray, rectangle);
         }
 
         private void Draw<T>(Size delta) where T : Microorganism
