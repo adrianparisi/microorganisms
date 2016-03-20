@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace Microorganisms.UI
@@ -17,6 +18,7 @@ namespace Microorganisms.UI
 
         private Graphics graphics;
         private World world;
+        private Core.Screen screen;
         private Cell cell;
 
 
@@ -34,6 +36,7 @@ namespace Microorganisms.UI
             this.cell = new Cell(this.graphics);
             var size = new Size(this.ClientSize.Width * 2, this.ClientSize.Height * 2);
             this.world = new World(this.graphics, size, this.ClientSize);
+            this.screen = new Core.Screen(this.graphics, this.ClientSize);
             this.world.Add(this.cell);
 
             this.timer.Start();
@@ -53,6 +56,7 @@ namespace Microorganisms.UI
         private void UpdateGame()
         {
             this.world.Draw();
+            this.screen.Draw();
             this.MoveCell();
             this.Eat();
         }
@@ -184,18 +188,18 @@ namespace Microorganisms.UI
 
         private void BoardForm_MouseDown(object sender, MouseEventArgs e)
         {
-            this.world.Joistick.Enable(e.Location);
+            this.screen.Joistick.Enable(e.Location);
         }
 
         private void BoardForm_MouseUp(object sender, MouseEventArgs e)
         {
-            this.world.Joistick.Disable();
+            this.screen.Joistick.Disable();
         }
 
         private void BoardForm_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                this.world.Joistick.Move(e.Location);
+                this.screen.Joistick.Move(e.Location);
         }
 
         #endregion Mouse

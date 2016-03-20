@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Microorganisms.Core
+namespace Microorganisms.Core.Controls
 {
     class JoystickComponent
     {

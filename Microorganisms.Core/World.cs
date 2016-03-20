@@ -19,7 +19,7 @@ namespace Microorganisms.Core
         private Cell cell;
 
 
-        public Joystick Joistick { get; private set; }
+        
         public Size Size { get; private set; }
         public Size Client { get; private set; }
 
@@ -38,8 +38,7 @@ namespace Microorganisms.Core
 
             this.InitializeGraphics(graphics);
             this.InitializeNutrients();
-            this.InitializeVirus();
-            this.Joistick = new Joystick(this.graphics);
+            this.InitializeVirus();            
         }
 
         private void InitializeGraphics(Graphics graphics)
@@ -149,7 +148,6 @@ namespace Microorganisms.Core
             this.Draw<Nutrient>(delta);
             this.Draw<Cell>(delta);
             this.Draw<Virus>(delta);
-            this.Joistick.Draw();
         }
 
         /// <summary>

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Microorganisms.Core
+namespace Microorganisms.Core.Controls
 {
     /// <summary>
     /// Control to handle the movement with the mouse.

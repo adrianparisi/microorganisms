@@ -41,14 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JoystickComponent.cs" />
-    <Compile Include="Joystick.cs" />
+    <Compile Include="Controls\Aim.cs" />
+    <Compile Include="Controls\JoystickComponent.cs" />
+    <Compile Include="Controls\Joystick.cs" />
     <Compile Include="Nutrient.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Screen.cs" />
     <Compile Include="Virus.cs" />
     <Compile Include="World.cs" />
     <Compile Include="Cell.cs" />
