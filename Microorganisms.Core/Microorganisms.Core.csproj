@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\Aim.cs" />
+    <Compile Include="Controls\GrayButton.cs" />
+    <Compile Include="Controls\Divider.cs" />
     <Compile Include="Controls\JoystickComponent.cs" />
     <Compile Include="Controls\Joystick.cs" />
     <Compile Include="Nutrient.cs" />
