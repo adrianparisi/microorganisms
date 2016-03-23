@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace Microorganisms.UI
@@ -125,26 +124,6 @@ namespace Microorganisms.UI
         {
             switch (e.KeyCode)
             {
-                case Keys.Up:
-                case Keys.W:
-                    this.cell.Velocity = new Point(this.cell.Velocity.X, this.maxVelocity * -1);
-                    break;
-
-                case Keys.Down:
-                case Keys.S:
-                    this.cell.Velocity = new Point(this.cell.Velocity.X, this.maxVelocity);
-                    break;
-
-                case Keys.Right:
-                case Keys.D:
-                    this.cell.Velocity = new Point(this.maxVelocity, this.cell.Velocity.Y);
-                    break;
-
-                case Keys.Left:
-                case Keys.A:
-                    this.cell.Velocity = new Point(this.maxVelocity * -1, this.cell.Velocity.Y);
-                    break;
-
                 case Keys.Oem5: // to the left of the 1 key
                     this.lblFps.Visible = !this.lblFps.Visible;
                     this.label1.Visible = !this.label1.Visible;
@@ -152,32 +131,6 @@ namespace Microorganisms.UI
                     
                 case Keys.Escape:
                     this.Close();
-                    break;
-            }
-        }
-
-        private void BoardForm_KeyUp(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.Up:
-                case Keys.W:
-                    this.cell.Velocity = new Point(this.cell.Velocity.X, this.minVelocity * -1);
-                    break;
-
-                case Keys.Down:
-                case Keys.S:
-                    this.cell.Velocity = new Point(this.cell.Velocity.X, this.minVelocity);
-                    break;
-
-                case Keys.Right:
-                case Keys.D:
-                    this.cell.Velocity = new Point(this.minVelocity, this.cell.Velocity.Y);
-                    break;
-
-                case Keys.Left:
-                case Keys.A:
-                    this.cell.Velocity = new Point(this.minVelocity * -1, this.cell.Velocity.Y);
                     break;
             }
         }
@@ -199,7 +152,10 @@ namespace Microorganisms.UI
         private void BoardForm_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
+            {
                 this.screen.Joistick.Move(e.Location);
+                this.cell.SetDirection(this.screen.Joistick.Direction);
+            }
         }
 
         #endregion Mouse

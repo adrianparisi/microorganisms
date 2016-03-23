@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microorganisms.Core
 {
@@ -17,6 +15,14 @@ namespace Microorganisms.Core
         {
             this.Height = 30;
             this.Width = 30;
+        }
+
+        public void SetDirection(Point direction)
+        {
+            int x = 4 * direction.X / this.Mass;
+            int y = 4 * direction.Y / this.Mass;
+
+            this.Velocity = new Point(x, y);
         }
 
         public void Eat(List<Microorganism> microorganisms)
@@ -69,7 +75,7 @@ namespace Microorganisms.Core
 
         public bool CanEat(Microorganism microorganism)
         {
-            return this.Mass - (this.Mass / 1.15) > microorganism.Mass;
+            return this.Mass * 1.25 > microorganism.Mass;
         }
 
         #endregion Collisions

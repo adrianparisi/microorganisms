@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Microorganisms.Core.Controls
 {
@@ -11,7 +12,10 @@ namespace Microorganisms.Core.Controls
         private bool visible;
         private JoystickComponent foot;
         private JoystickComponent stick;
-        private Point direction;
+        private Point pointer;
+
+
+        public Point Direction { get; private set; }
 
 
         #region Initialization
@@ -36,7 +40,7 @@ namespace Microorganisms.Core.Controls
         public void Enable(Point center)
         {
             this.foot.Center = center;
-            this.direction = center;
+            this.pointer = center;
             this.stick.Center = this.GetIntersection();
             this.visible = true;
         }
@@ -44,11 +48,12 @@ namespace Microorganisms.Core.Controls
         public void Disable()
         {
             this.visible = false;
+            this.Direction = new Point(0, 0);
         }
 
-        public void Move(Point direction)
+        public void Move(Point pointer)
         {
-            this.direction = direction;
+            this.pointer = pointer;
             this.stick.Center = this.GetIntersection();
         }
 
@@ -57,14 +62,30 @@ namespace Microorganisms.Core.Controls
         /// </summary>
         private Point GetIntersection()
         {
-            //var u = this.foot.Center.X;
-            //var v = this.foot.Center.Y;
-            //var w = this.direction.X;
-            //var z = this.direction.Y;
-            //var r = 30;
-            //var m = (v - z) / (u - w);
+            int cx = this.foot.Center.X;
+            int cy = this.foot.Center.Y;
+            int px = this.pointer.X;
+            int py = this.pointer.Y;
+            int radius = this.foot.Radius;
 
-            return this.direction;
+            double lenght = Math.Sqrt((Math.Pow((px - cx), 2) + Math.Pow((py - cy), 2)));
+
+            double x = (px - cx) / lenght;
+            double y = (py - cy) / lenght;
+
+            this.Direction = new Point((int)Math.Round(x * 100), (int)Math.Round(y * 100));
+         
+            if (lenght <= radius)
+            {
+                return this.pointer;
+            }
+            else
+            {
+                int intersectionX = (int)(this.foot.Center.X + radius * x);
+                int intersectionY = (int)(this.foot.Center.Y + radius * y);
+
+                return new Point(intersectionX, intersectionY);
+            }
         }
 
         #endregion Behaviour

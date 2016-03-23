@@ -9,6 +9,12 @@ namespace Microorganisms.Core.Controls
 
 
         public Size Size { get; private set; }
+
+        public int Radius
+        {
+            get { return this.Size.Width / 2; }
+        }
+
         public Point Center { get; set; }
 
         public Point Position

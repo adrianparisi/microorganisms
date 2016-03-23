@@ -1,10 +1,5 @@
 ﻿using Microorganisms.Core.Properties;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microorganisms.Core
 {
@@ -18,7 +13,7 @@ namespace Microorganisms.Core
 
 
         public Virus(Graphics graphics)
-            : base(graphics, 40)
+            : base(graphics, 140)
         {
             this.Width = 45;
             this.Height = 45;
