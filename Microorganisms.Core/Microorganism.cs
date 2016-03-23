@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace Microorganisms.Core
 {
@@ -12,17 +7,24 @@ namespace Microorganisms.Core
         protected Graphics graphics;
 
 
-        public Point Position { get; set; }
-
-        public int Width { get; protected set; }
-        public int Height { get; protected set; }
-
         public int Mass { get; protected set; }
+
+        public int Width
+        {
+            get { return this.Mass; }
+        }
+
+        public int Height
+        {
+            get { return this.Mass; }
+        }
 
         public int Radius
         {
             get { return this.Width / 2; }
         }
+
+        public Point Position { get; set; }
 
         public Point Center
         {
@@ -34,6 +36,7 @@ namespace Microorganisms.Core
                 return new Point(x, y);
             }
         }
+
 
         public Microorganism(Graphics graphics, int mass)
         {

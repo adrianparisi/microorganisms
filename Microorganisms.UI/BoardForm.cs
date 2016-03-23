@@ -11,10 +11,6 @@ namespace Microorganisms.UI
     {
         private float deltaFPSTime = 0;
         private Stopwatch watch = new Stopwatch();
-
-        private int minVelocity = 5;
-        private int maxVelocity = 15;
-
         private Graphics graphics;
         private World world;
         private Core.Screen screen;
@@ -124,6 +120,14 @@ namespace Microorganisms.UI
         {
             switch (e.KeyCode)
             {
+                case Keys.W:
+                    this.cell.Shoot();
+                    break;
+
+                case Keys.Space:
+                    this.cell.Divide();
+                    break;
+
                 case Keys.Oem5: // to the left of the 1 key
                     this.lblFps.Visible = !this.lblFps.Visible;
                     this.label1.Visible = !this.label1.Visible;

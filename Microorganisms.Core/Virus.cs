@@ -13,16 +13,11 @@ namespace Microorganisms.Core
 
 
         public Virus(Graphics graphics)
-            : base(graphics, 140)
-        {
-            this.Width = 45;
-            this.Height = 45;
-        }
-
+            : base(graphics, 140) { }
 
         public override void Draw(Size delta)
         {
-            var rectangle = new Rectangle(this.Position + delta, new Size(this.Radius * 2, this.Radius * 2));
+            var rectangle = new Rectangle(this.Position + delta, new Size(this.Width, this.Height));
             this.graphics.DrawImage(Virus.image, rectangle);
         }
     }

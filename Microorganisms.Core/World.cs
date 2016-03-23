@@ -19,7 +19,6 @@ namespace Microorganisms.Core
         private Cell cell;
 
 
-        
         public Size Size { get; private set; }
         public Size Client { get; private set; }
 
@@ -50,7 +49,7 @@ namespace Microorganisms.Core
 
         private void InitializeNutrients()
         {
-            const int nutrientsCount = 100;
+            const int nutrientsCount = 180;
 
             for (int i = 0; i < nutrientsCount; i++)
                 this.AddNutrient();
@@ -58,7 +57,7 @@ namespace Microorganisms.Core
 
         private void InitializeVirus()
         {
-            const int virusCount = 15;
+            const int virusCount = 10;
 
             for (int i = 0; i < virusCount; i++)
                 this.AddVirus();

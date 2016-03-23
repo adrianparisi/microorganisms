@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
@@ -11,11 +10,7 @@ namespace Microorganisms.Core
 
 
         public Cell(Graphics graphic)
-            : base(graphic, 20)
-        {
-            this.Height = 30;
-            this.Width = 30;
-        }
+            : base(graphic, 20) { }
 
         public void SetDirection(Point direction)
         {
@@ -34,25 +29,26 @@ namespace Microorganisms.Core
         public void Eat(Nutrient nutrient)
         {
             this.Mass += nutrient.Mass;
-            this.Grow();
         }
 
         public void Eat(Cell cell)
         {
             this.Mass += cell.Mass;
-            this.Grow();
-        }
-
-        private void Grow()
-        {
-            int half = (int)Math.Round(Math.Sqrt(this.Mass / Math.PI), 0);
-            this.Width += half;
-            this.Height += half;
-            // TODO slow down
         }
 
         public void Eat(Virus virus)
         {
+            this.Divide();
+        }
+
+        public void Shoot()
+        {
+
+        }
+
+        public void Divide()
+        {
+            //this.Mass = (int)(this.Mass / 1.1);
             // TODO divide
         }
         
@@ -104,7 +100,7 @@ namespace Microorganisms.Core
 
         private void DrawMass(Size delta)
         {
-            Font font = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Point);
+            Font font = new Font("Arial", 9, FontStyle.Bold, GraphicsUnit.Point);
             var rectangle = new Rectangle(this.Position + delta, new Size(this.Width, this.Height));
             StringFormat format = new StringFormat();
             format.Alignment = StringAlignment.Center;

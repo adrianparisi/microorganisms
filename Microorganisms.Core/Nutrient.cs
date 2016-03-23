@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microorganisms.Core
 {
@@ -16,7 +12,13 @@ namespace Microorganisms.Core
         private static Random random = new Random();
         private Brush brush;
 
+
         public Color Color { get; private set; }
+
+        public new int Radius
+        {
+            get { return 4; }
+        }
 
 
         #region Initialization
@@ -26,8 +28,6 @@ namespace Microorganisms.Core
         {
             this.Color = GetRandomColor();
             this.brush = new SolidBrush(this.Color);
-            this.Width = 10;
-            this.Height = 10;
         }
 
         private static Color GetRandomColor()
