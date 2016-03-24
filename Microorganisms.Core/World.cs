@@ -1,4 +1,5 @@
 ﻿using Microorganisms.Core.Properties;
+using SomeTools;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,7 +25,7 @@ namespace Microorganisms.Core
 
         public Point Center
         {
-            get { return new Point(this.Size.Width / 2, this.Size.Height / 2); }
+            get { return new Point(this.Size.Divide(2)); }
         }
 
 

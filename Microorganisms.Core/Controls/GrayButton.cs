@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using SomeTools;
+using System.Drawing;
 
 namespace Microorganisms.Core.Controls
 {
@@ -14,13 +15,7 @@ namespace Microorganisms.Core.Controls
 
         public Point Position
         {
-            get
-            {
-                int x = this.Center.X - this.Size.Width / 2;
-                int y = this.Center.Y - this.Size.Height / 2;
-
-                return new Point(x, y);
-            }
+            get { return this.Center - this.Size.Divide(2); }
         }
 
 

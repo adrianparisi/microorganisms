@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using SomeTools;
+using System.Drawing;
 
 namespace Microorganisms.Core.Controls
 {
@@ -17,7 +18,7 @@ namespace Microorganisms.Core.Controls
             int spaceX = this.Size.Width / 12;
             int spaceY = this.Size.Width / 32;
 
-            this.cellSize = new Size(this.Size.Width / 4, this.Size.Height / 4);
+            this.cellSize = this.Size.Divide(4);
             this.leftCell = this.Center - new Size(spaceX, spaceY) - cellSize;
             this.rightCell = this.Center + new Size(spaceX, spaceY);
         }
