@@ -1,40 +1,38 @@
-﻿using System.Drawing;
+﻿using SomeTools;
+using System;
+using System.Drawing;
 
 namespace Microorganisms.Core
 {
-    public abstract class Microorganism
+    public abstract class Microorganism : IDisposable
     {
+        private int mass;
         protected Graphics graphics;
 
 
-        public int Mass { get; protected set; }
-
-        public int Width
+        public int Mass
         {
-            get { return this.Mass; }
+            get { return this.mass; }
+
+            protected set
+            {
+                this.mass = value;
+                int side = (int)Math.Round(Math.Sqrt(value / Math.PI) * 2 * 5);
+                this.Size = new Size(side, side);
+            }
         }
 
-        public int Height
-        {
-            get { return this.Mass; }
-        }
-
+        public Size Size { get; private set; }
         public int Radius
         {
-            get { return this.Width / 2; }
+            get { return this.Size.Width / 2; }
         }
 
         public Point Position { get; set; }
 
         public Point Center
         {
-            get
-            {
-                int x = this.Position.X + this.Width / 2;
-                int y = this.Position.Y + this.Height / 2;
-
-                return new Point(x, y);
-            }
+            get { return this.Position + this.Size.Divide(2); }
         }
 
 
@@ -44,6 +42,14 @@ namespace Microorganisms.Core
             this.Mass = mass;
         }
 
+        public bool Collision(Size world)
+        {
+            return this.Position.X <= 0 || this.Position.X + this.Size.Width >= world.Width ||
+                this.Position.Y <= 0 || this.Position.Y + this.Size.Height >= world.Height;
+        }
+
         public abstract void Draw(Size delta);
+
+        public abstract void Dispose();
     }
 }

@@ -17,8 +17,10 @@ namespace Microorganisms.Core
 
         public override void Draw(Size delta)
         {
-            var rectangle = new Rectangle(this.Position + delta, new Size(this.Width, this.Height));
+            var rectangle = new Rectangle(this.Position + delta, this.Size);
             this.graphics.DrawImage(Virus.image, rectangle);
         }
+
+        public override void Dispose() { }
     }
 }

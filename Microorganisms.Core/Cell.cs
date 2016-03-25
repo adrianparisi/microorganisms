@@ -6,11 +6,30 @@ namespace Microorganisms.Core
 {
     public class Cell : Microorganism
     {
+        private Font font;
+        private StringFormat format;
+
+
         public Point Velocity { get; set; }
 
 
+        #region Initialization
+
         public Cell(Graphics graphic)
-            : base(graphic, 20) { }
+            : base(graphic, 20)
+        {
+            this.InitializeFont();
+        }
+
+        private void InitializeFont()
+        {
+            this.font = new Font("Arial", 9, FontStyle.Bold, GraphicsUnit.Point);
+            this.format = new StringFormat();
+            this.format.Alignment = StringAlignment.Center;
+            this.format.LineAlignment = StringAlignment.Center;
+        }
+
+        #endregion Initialization
 
         public void SetDirection(Point direction)
         {
@@ -43,7 +62,7 @@ namespace Microorganisms.Core
 
         public void Shoot()
         {
-
+            //this.Mass -= 20;
         }
 
         public void Divide()
@@ -61,12 +80,6 @@ namespace Microorganisms.Core
             var deltaY = this.Center.Y - microorganism.Center.Y;
 
             return deltaX * deltaX + deltaY * deltaY <= radius * radius;
-        }
-
-        public bool Collision(Size world)
-        {
-            return this.Position.X <= 0 || this.Position.X + this.Radius >= world.Width ||
-                this.Position.Y <= 0 || this.Position.Y + this.Radius >= world.Height;
         }
 
         public bool CanEat(Microorganism microorganism)
@@ -87,30 +100,29 @@ namespace Microorganisms.Core
 
         private void DrawCell(Size delta)
         {
-            var rectangle = new Rectangle(this.Position + delta, new Size(this.Width, this.Height));
+            var rectangle = new Rectangle(this.Position + delta, this.Size);
             this.graphics.FillEllipse(Brushes.Black, rectangle);
         }
 
         private void DrawBorder(Size delta)
         {
-            var rectangle = new Rectangle(this.Position + delta, new Size(this.Width, this.Height));
+            var rectangle = new Rectangle(this.Position + delta, this.Size);
             rectangle.Inflate(-1, -1);
             this.graphics.FillEllipse(Brushes.Yellow, rectangle);
         }
 
         private void DrawMass(Size delta)
         {
-            Font font = new Font("Arial", 9, FontStyle.Bold, GraphicsUnit.Point);
-            var rectangle = new Rectangle(this.Position + delta, new Size(this.Width, this.Height));
-            StringFormat format = new StringFormat();
-            format.Alignment = StringAlignment.Center;
-            format.LineAlignment = StringAlignment.Center;
-
-            this.graphics.DrawString(this.Mass.ToString(), font, Brushes.Black, rectangle, format);
-
-            font.Dispose();
+            var rectangle = new Rectangle(this.Position + delta, this.Size);
+            this.graphics.DrawString(this.Mass.ToString(), this.font, Brushes.Black, rectangle, format);
         }
 
         #endregion Draw
+
+        public override void Dispose()
+        {
+            this.font.Dispose();
+            this.format.Dispose();
+        }
     }
 }

@@ -70,35 +70,42 @@ namespace Microorganisms.Core
 
         private void AddNutrient()
         {
-            Nutrient nutrient = new Nutrient(this.graphics);
-            nutrient.Position = this.GetRandomPosition();
+            Nutrient nutrient = null;
+            
+            while (nutrient == null || nutrient.Collision(this.Size))
+            {
+                nutrient = new Nutrient(this.graphics);
+                nutrient.Position = this.GetRandomPosition();
+            }
+
             this.microorganisms.Add(nutrient);
         }
 
         private void AddVirus()
         {
-            Virus virus = new Virus(this.graphics);
-            virus.Position = this.GetRandomPosition();
-            this.microorganisms.Add(virus);
-        }
+            Virus virus = null;
 
-        private Point GetRandomPosition()
-        {
-            Point? position = null;
-
-            while (!position.HasValue) // TODO validate collisions
+            while (virus == null || virus.Collision(this.Size))
             {
-                position = new Point(random.Next(this.Size.Width), random.Next(this.Size.Height));
+                virus = new Virus(this.graphics);
+                virus.Position = this.GetRandomPosition();
             }
 
-            return position.Value;
+            this.microorganisms.Add(virus);
         }
 
         public void Add(Cell cell)
         {
-            cell.Position = this.Center;
+            while (cell.Collision(this.Size))
+                cell.Position = this.GetRandomPosition();
+
             this.microorganisms.Add(cell);
             this.cell = cell;
+        }
+
+        private Point GetRandomPosition()
+        {
+            return new Point(this.random.Next(this.Size.Width), this.random.Next(this.Size.Height));
         }
 
         #endregion Add
@@ -134,6 +141,8 @@ namespace Microorganisms.Core
 
             else if (microorganism.GetType() == typeof(Virus))
                 this.AddVirus();
+
+            microorganism.Dispose();
         }
 
         #endregion Remove
@@ -164,7 +173,7 @@ namespace Microorganisms.Core
 
         private void DrawBackground(Size delta)
         {
-            var rectangle = new Rectangle(new Point(0, 0), this.Size + this.Size);
+            var rectangle = new Rectangle(new Point(0, 0) - this.Size + delta, this.Size.Multiply(4));
             this.graphics.FillRectangle(this.backgroundBrush, rectangle);
         }
 

@@ -84,7 +84,7 @@ namespace Microorganisms.UI
             {
                 int x = cell.Position.X + cell.Velocity.X;
 
-                if (0 < x && x + cell.Width < this.world.Size.Width)
+                if (0 < x && x + cell.Size.Width < this.world.Size.Width)
                     return x;
             }
 
@@ -97,7 +97,7 @@ namespace Microorganisms.UI
             {
                 int y = cell.Position.Y + cell.Velocity.Y;
 
-                if (0 < y && y + cell.Height < this.world.Size.Height)
+                if (0 < y && y + cell.Size.Height < this.world.Size.Height)
                     return y;
             }
 

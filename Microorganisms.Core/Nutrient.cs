@@ -10,14 +10,15 @@ namespace Microorganisms.Core
     public class Nutrient : Microorganism
     {
         private static Random random = new Random();
+        private Size size;
         private Brush brush;
 
 
         public Color Color { get; private set; }
 
-        public new int Radius
+        public new Size Size
         {
-            get { return 4; }
+            get { return this.size; }
         }
 
 
@@ -27,6 +28,7 @@ namespace Microorganisms.Core
             : base(graphics, 1)
         {
             this.Color = GetRandomColor();
+            this.size = new Size(8, 8);
             this.brush = new SolidBrush(this.Color);
         }
 
@@ -39,8 +41,13 @@ namespace Microorganisms.Core
 
         public override void Draw(Size delta)
         {
-            var rectangle = new Rectangle(this.Position + delta, new Size(this.Radius * 2, this.Radius * 2));
+            var rectangle = new Rectangle(this.Position + delta, this.Size);
             this.graphics.FillEllipse(this.brush, rectangle);
+        }
+
+        public override void Dispose()
+        {
+            this.brush.Dispose();
         }
     }
 }
