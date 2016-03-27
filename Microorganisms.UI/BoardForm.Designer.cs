@@ -74,8 +74,10 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Microorganisms";
             this.Load += new System.EventHandler(this.BoardForm_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.BoardForm_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BoardForm_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BoardForm_MouseDown);
+            this.MouseLeave += new System.EventHandler(this.BoardForm_MouseLeave);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.BoardForm_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BoardForm_MouseUp);
             this.ResumeLayout(false);

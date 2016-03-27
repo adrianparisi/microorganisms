@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using SomeTools;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
@@ -38,21 +40,25 @@ namespace Microorganisms.Core
 
             this.Velocity = new Point(x, y);
         }
+        
+        #region Eat
 
         public void Eat(List<Microorganism> microorganisms)
         {
-            foreach (Microorganism microorganism in microorganisms.OfType<Nutrient>())
-                this.Eat((Nutrient)microorganism); // TODO avoid Nutrient cast
+            var virus = microorganisms.OfType<Virus>();
+
+            foreach (Virus v in virus)
+                this.Eat(v);
+
+            var others = microorganisms.Except(virus);
+
+            foreach (Microorganism microorganism in others)
+                this.Eat(microorganism);
         }
 
-        public void Eat(Nutrient nutrient)
+        public void Eat(Microorganism microorganism)
         {
-            this.Mass += nutrient.Mass;
-        }
-
-        public void Eat(Cell cell)
-        {
-            this.Mass += cell.Mass;
+            this.Mass += microorganism.Mass;
         }
 
         public void Eat(Virus virus)
@@ -60,10 +66,43 @@ namespace Microorganisms.Core
             this.Divide();
         }
 
-        public void Shoot()
+        #endregion Eat
+        
+        #region Eject
+        
+        public EjectedMass EjectMass()
         {
-            //this.Mass -= 20;
+            if (this.Mass > 35)
+            {
+                const int ejected = 20;
+                this.Mass -= ejected;
+                EjectedMass mass = new EjectedMass(this.graphics, ejected);
+                mass.Velocity = new Size(this.Velocity).Multiply(14);
+                mass.Position = this.GetIntersection(this.Center, this.Velocity) + mass.Velocity;
+
+                return mass;
+            }
+
+            return null;
         }
+
+        private Point GetIntersection(Point center, Point pointer)
+        {
+            int cx = center.X;
+            int cy = center.Y;
+            int px = pointer.X;
+            int py = pointer.Y;
+
+            int radius = this.Size.Width / 2;
+            double lenght = Math.Sqrt((Math.Pow((px - cx), 2) + Math.Pow((py - cy), 2)));
+
+            int x = (int)(cx + radius * (px - cx) / lenght);
+            int y = (int)(cy + radius * (py - cy) / lenght);
+
+            return new Point(x, y);
+        }
+
+        #endregion Eject
 
         public void Divide()
         {

@@ -45,11 +45,18 @@ namespace Microorganisms.UI
         private void timer_Tick(object sender, EventArgs e)
         {
             this.UpdateGame();
+        }
+
+        private void BoardForm_Paint(object sender, PaintEventArgs e)
+        {
+            //this.UpdateGame();
             this.CalculateFps();
+            //this.Invalidate();
         }
 
         private void UpdateGame()
         {
+            this.world.Update();
             this.world.Draw();
             this.screen.Draw();
             this.MoveCell();
@@ -121,7 +128,10 @@ namespace Microorganisms.UI
             switch (e.KeyCode)
             {
                 case Keys.W:
-                    this.cell.Shoot();
+                    EjectedMass mass = this.cell.EjectMass();
+
+                    if (mass != null)
+                        this.world.Add(mass);
                     break;
 
                 case Keys.Space:
@@ -148,11 +158,6 @@ namespace Microorganisms.UI
             this.screen.Joistick.Enable(e.Location);
         }
 
-        private void BoardForm_MouseUp(object sender, MouseEventArgs e)
-        {
-            this.screen.Joistick.Disable();
-        }
-
         private void BoardForm_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -162,6 +167,17 @@ namespace Microorganisms.UI
             }
         }
 
+        private void BoardForm_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.screen.Joistick.Disable();
+        }
+
+        private void BoardForm_MouseLeave(object sender, EventArgs e)
+        {
+            this.screen.Joistick.Disable();
+        }
+
         #endregion Mouse
+
     }
 }

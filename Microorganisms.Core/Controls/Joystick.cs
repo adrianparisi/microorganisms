@@ -39,7 +39,7 @@ namespace Microorganisms.Core.Controls
 
         public void Enable(Point center)
         {
-            this.foot.Center = center;
+            this.foot.Center = center; // TODO move in cell direction
             this.pointer = center;
             this.stick.Center = this.GetIntersection();
             this.visible = true;

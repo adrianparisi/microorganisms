@@ -96,6 +96,9 @@ namespace Microorganisms.Core
 
         public void Add(Cell cell)
         {
+            if (cell == null)
+                throw new ArgumentNullException("cell");
+
             while (cell.Collision(this.Size))
                 cell.Position = this.GetRandomPosition();
 
@@ -108,12 +111,23 @@ namespace Microorganisms.Core
             return new Point(this.random.Next(this.Size.Width), this.random.Next(this.Size.Height));
         }
 
+        public void Add(EjectedMass mass)
+        {
+            if (mass == null)
+                throw new ArgumentNullException("mass");
+
+            this.microorganisms.Add(mass);
+        }
+
         #endregion Add
 
         #region Remove
 
         public List<Microorganism> GetFood(Cell cell)
         {
+            if (cell == null)
+                throw new ArgumentNullException("cell");
+
             List<Microorganism> removed = this.microorganisms
                 .Where(m => cell.CanEat(m))
                 .Where(m => cell.Collision(m))
@@ -147,6 +161,12 @@ namespace Microorganisms.Core
 
         #endregion Remove
 
+        public void Update()
+        {
+            foreach (var microorganism in this.microorganisms.OfType<EjectedMass>())
+                microorganism.Update();
+        }
+
         #region Draw
 
         public void Draw()
@@ -155,6 +175,7 @@ namespace Microorganisms.Core
             this.DrawBackground(delta);
             this.DrawBorder(delta);
             this.Draw<Nutrient>(delta);
+            this.Draw<EjectedMass>(delta);
             this.Draw<Cell>(delta);
             this.Draw<Virus>(delta);
         }
