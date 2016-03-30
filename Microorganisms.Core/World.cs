@@ -72,7 +72,7 @@ namespace Microorganisms.Core
         {
             Nutrient nutrient = null;
             
-            while (nutrient == null || nutrient.Collision(this.Size))
+            while (nutrient == null || nutrient.Collision(this))
             {
                 nutrient = new Nutrient(this.graphics);
                 nutrient.Position = this.GetRandomPosition();
@@ -85,7 +85,7 @@ namespace Microorganisms.Core
         {
             Virus virus = null;
 
-            while (virus == null || virus.Collision(this.Size))
+            while (virus == null || virus.Collision(this))
             {
                 virus = new Virus(this.graphics);
                 virus.Position = this.GetRandomPosition();
@@ -99,7 +99,7 @@ namespace Microorganisms.Core
             if (cell == null)
                 throw new ArgumentNullException("cell");
 
-            while (cell.Collision(this.Size))
+            while (cell.Collision(this))
                 cell.Position = this.GetRandomPosition();
 
             this.microorganisms.Add(cell);
@@ -163,8 +163,18 @@ namespace Microorganisms.Core
 
         public void Update()
         {
-            foreach (var microorganism in this.microorganisms.OfType<EjectedMass>())
+            foreach (Microorganism microorganism in this.microorganisms)
                 microorganism.Update();
+
+            this.Eat();
+        }
+
+        private void Eat()
+        {
+            List<Microorganism> microorganisms = this.GetFood(this.cell);
+
+            if (microorganisms != null)
+                this.cell.Eat(microorganisms);
         }
 
         #region Draw
@@ -186,21 +196,21 @@ namespace Microorganisms.Core
         /// </summary>
         private Size GetDeltaClient()
         {
-            int x = (this.cell.Center.X - this.Client.Width / 2) * -1;
-            int y = (this.cell.Center.Y - this.Client.Height / 2) * -1;
+            int x = this.Client.Width / 2 - this.cell.Center.X;
+            int y = this.Client.Height / 2 - this.cell.Center.Y;
 
             return new Size(x, y);
         }
 
         private void DrawBackground(Size delta)
         {
-            var rectangle = new Rectangle(new Point(0, 0) - this.Size + delta, this.Size.Multiply(4));
+            var rectangle = new Rectangle(Point.Empty - this.Size + delta, this.Size.Multiply(4));
             this.graphics.FillRectangle(this.backgroundBrush, rectangle);
         }
 
         private void DrawBorder(Size delta)
         {
-            var rectangle = new Rectangle(new Point(0, 0) + delta, this.Size);
+            var rectangle = new Rectangle(Point.Empty + delta, this.Size);
             this.graphics.DrawRectangle(Pens.Gray, rectangle);
         }
 

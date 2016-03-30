@@ -1,5 +1,4 @@
-﻿using SomeTools;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Microorganisms.Core
 {
@@ -13,19 +12,21 @@ namespace Microorganisms.Core
         private static Brush backgroundBrush = new SolidBrush(Color.SaddleBrown);
 
 
-        public Size Velocity { get; set; }
-
+        #region Initialization
 
         public EjectedMass(Graphics graphics, int mass)
-            : base(graphics, (int)(mass / 1.2)) { }
+            : base(graphics, EjectedMass.ReduceMass(mass)) { }
 
-        public void Update()
+        /// <summary>
+        /// Reduces the quantity of mass that the cells eject.
+        /// </summary>
+        /// <param name="mass">The mass ejected by the cell.</param>
+        private static int ReduceMass(int mass)
         {
-            const int aceleration = 2;
-
-            this.Position = this.Position + Velocity;
-            this.Velocity = this.Velocity.Divide(aceleration);
+            return (int)(mass / 1.2);
         }
+
+        #endregion Initialization
 
         #region Draw
 

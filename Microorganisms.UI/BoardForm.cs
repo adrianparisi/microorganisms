@@ -1,6 +1,5 @@
 ﻿using Microorganisms.Core;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -51,7 +50,6 @@ namespace Microorganisms.UI
         {
             //this.UpdateGame();
             this.CalculateFps();
-            //this.Invalidate();
         }
 
         private void UpdateGame()
@@ -59,8 +57,6 @@ namespace Microorganisms.UI
             this.world.Update();
             this.world.Draw();
             this.screen.Draw();
-            this.MoveCell();
-            this.Eat();
         }
 
         private void CalculateFps()
@@ -74,49 +70,6 @@ namespace Microorganisms.UI
                 this.lblFps.Text = fps.ToString("N2");
                 this.deltaFPSTime -= 1;
             }
-        }
-
-        private void MoveCell()
-        {
-            Point position = new Point();
-            position.X = MoveX(this.cell);
-            position.Y = MoveY(this.cell);
-
-            this.cell.Position = position;
-        }
-
-        private int MoveX(Cell cell)
-        {
-            if (cell.Velocity.X != 0)
-            {
-                int x = cell.Position.X + cell.Velocity.X;
-
-                if (0 < x && x + cell.Size.Width < this.world.Size.Width)
-                    return x;
-            }
-
-            return cell.Position.X;
-        }
-
-        private int MoveY(Cell cell)
-        {
-            if (cell.Velocity.Y != 0)
-            {
-                int y = cell.Position.Y + cell.Velocity.Y;
-
-                if (0 < y && y + cell.Size.Height < this.world.Size.Height)
-                    return y;
-            }
-
-            return cell.Position.Y;
-        }
-
-        private void Eat()
-        {
-            List<Microorganism> microorganisms = this.world.GetFood(this.cell);
-
-            if (microorganisms != null)
-                this.cell.Eat(microorganisms);
         }
 
         #endregion Update
@@ -178,6 +131,5 @@ namespace Microorganisms.UI
         }
 
         #endregion Mouse
-
     }
 }

@@ -12,9 +12,6 @@ namespace Microorganisms.Core
         private StringFormat format;
 
 
-        public Point Velocity { get; set; }
-
-
         #region Initialization
 
         public Cell(Graphics graphic)
@@ -77,8 +74,8 @@ namespace Microorganisms.Core
                 const int ejected = 20;
                 this.Mass -= ejected;
                 EjectedMass mass = new EjectedMass(this.graphics, ejected);
-                mass.Velocity = new Size(this.Velocity).Multiply(14);
-                mass.Position = this.GetIntersection(this.Center, this.Velocity) + mass.Velocity;
+                mass.Velocity = new Point(new Size(this.Velocity).Multiply(14));
+                mass.Position = this.GetIntersection(this.Center, this.Velocity) + new Size(mass.Velocity);
 
                 return mass;
             }
