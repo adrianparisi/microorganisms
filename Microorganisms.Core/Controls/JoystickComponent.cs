@@ -5,7 +5,6 @@ namespace Microorganisms.Core.Controls
 {
     class JoystickComponent
     {
-        private Graphics graphics;
         private Brush brush;
 
 
@@ -26,9 +25,8 @@ namespace Microorganisms.Core.Controls
 
         #region Initialization
 
-        public JoystickComponent(Graphics graphics, Size size)
+        public JoystickComponent(Size size)
         {
-            this.graphics = graphics;
             this.InitializeGraphics(size);
         }
 
@@ -41,10 +39,10 @@ namespace Microorganisms.Core.Controls
 
         #endregion Initialization
 
-        public void Draw()
+        public void Draw(Graphics graphics)
         {
             var rectangle = new Rectangle(this.Position, this.Size);
-            this.graphics.FillEllipse(this.brush, rectangle);
+            graphics.FillEllipse(this.brush, rectangle);
         }
     }
 }

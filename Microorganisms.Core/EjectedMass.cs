@@ -14,8 +14,8 @@ namespace Microorganisms.Core
 
         #region Initialization
 
-        public EjectedMass(Graphics graphics, int mass)
-            : base(graphics, EjectedMass.ReduceMass(mass))
+        public EjectedMass(int mass)
+            : base(EjectedMass.ReduceMass(mass))
         {
             this.InitializeGraphics();
         }
@@ -39,23 +39,23 @@ namespace Microorganisms.Core
 
         #region Draw
 
-        public override void Draw(Size delta)
+        public override void Draw(Graphics graphics, Size delta)
         {
-            this.DrawBackground(delta);
-            this.DrawBorder(delta);
+            this.DrawBackground(graphics, delta);
+            this.DrawBorder(graphics, delta);
         }
 
-        private void DrawBackground(Size delta)
+        private void DrawBackground(Graphics graphics, Size delta)
         {
             var rectangle = new Rectangle(this.Position + delta, this.Size);
-            this.graphics.FillEllipse(this.backgroundBrush, rectangle);
+            graphics.FillEllipse(this.backgroundBrush, rectangle);
         }
 
-        private void DrawBorder(Size delta)
+        private void DrawBorder(Graphics graphics, Size delta)
         {
             var rectangle = new Rectangle(this.Position + delta, this.Size);
             rectangle.Inflate(-1, -1);
-            this.graphics.DrawEllipse(this.borderPen, rectangle);
+            graphics.DrawEllipse(this.borderPen, rectangle);
         }
 
         #endregion Draw

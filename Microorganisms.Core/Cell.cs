@@ -14,8 +14,8 @@ namespace Microorganisms.Core
 
         #region Initialization
 
-        public Cell(Graphics graphic)
-            : base(graphic, 20)
+        public Cell()
+            : base(20)
         {
             this.InitializeFont();
         }
@@ -73,7 +73,7 @@ namespace Microorganisms.Core
             {
                 const int ejected = 20;
                 this.Mass -= ejected;
-                EjectedMass mass = new EjectedMass(this.graphics, ejected);
+                EjectedMass mass = new EjectedMass(ejected);
                 mass.Velocity = new Point(new Size(this.Velocity).Multiply(14));
                 mass.Position = this.GetIntersection(this.Center, this.Velocity) + new Size(mass.Velocity);
 
@@ -127,30 +127,30 @@ namespace Microorganisms.Core
 
         #region Draw
 
-        public override void Draw(Size delta)
+        public override void Draw(Graphics graphics, Size delta)
         {
-            DrawCell(delta);
-            DrawBorder(delta);
-            DrawMass(delta);
+            DrawCell(graphics, delta);
+            DrawBorder(graphics, delta);
+            DrawMass(graphics, delta);
         }
 
-        private void DrawCell(Size delta)
+        private void DrawCell(Graphics graphics, Size delta)
         {
             var rectangle = new Rectangle(this.Position + delta, this.Size);
-            this.graphics.FillEllipse(Brushes.Black, rectangle);
+            graphics.FillEllipse(Brushes.Black, rectangle);
         }
 
-        private void DrawBorder(Size delta)
+        private void DrawBorder(Graphics graphics, Size delta)
         {
             var rectangle = new Rectangle(this.Position + delta, this.Size);
             rectangle.Inflate(-1, -1);
-            this.graphics.FillEllipse(Brushes.Yellow, rectangle);
+            graphics.FillEllipse(Brushes.Yellow, rectangle);
         }
 
-        private void DrawMass(Size delta)
+        private void DrawMass(Graphics graphics, Size delta)
         {
             var rectangle = new Rectangle(this.Position + delta, this.Size);
-            this.graphics.DrawString(this.Mass.ToString(), this.font, Brushes.Black, rectangle, format);
+            graphics.DrawString(this.Mass.ToString(), this.font, Brushes.Black, rectangle, format);
         }
 
         #endregion Draw

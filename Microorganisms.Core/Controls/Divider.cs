@@ -10,8 +10,8 @@ namespace Microorganisms.Core.Controls
         private Point rightCell;
 
 
-        public Divider(Graphics graphics, Size size, Point center)
-            : base(graphics, size)
+        public Divider(Size size, Point center)
+            : base(size)
         {
             this.Center = center;
 
@@ -25,25 +25,25 @@ namespace Microorganisms.Core.Controls
 
         #region Draw
 
-        protected override void DrawContent()
+        protected override void DrawContent(Graphics graphics)
         {
-            this.DrawLine();
-            this.DrawCell(this.leftCell);
-            this.DrawCell(this.rightCell);
+            this.DrawLine(graphics);
+            this.DrawCell(graphics, this.leftCell);
+            this.DrawCell(graphics, this.rightCell);
         }
 
-        private void DrawLine()
+        private void DrawLine(Graphics graphics)
         {
             int lenght = this.Size.Height / 3;
             Point top = this.Center + new Size(0, lenght * -1);
             Point down = this.Center + new Size(0, lenght);
-            this.graphics.DrawLine(this.contentPen, top, down);
+            graphics.DrawLine(this.contentPen, top, down);
         }
 
-        private void DrawCell(Point position1)
+        private void DrawCell(Graphics graphics, Point position1)
         {
             var rectangle = new Rectangle(position1, this.cellSize);
-            this.graphics.DrawEllipse(this.contentPen, rectangle);
+            graphics.DrawEllipse(this.contentPen, rectangle);
         }
 
         #endregion Draw

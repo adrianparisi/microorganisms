@@ -24,8 +24,8 @@ namespace Microorganisms.Core
 
         #region Initialization
 
-        public Nutrient(Graphics graphics)
-            : base(graphics, 1)
+        public Nutrient()
+            : base(1)
         {
             this.Color = GetRandomColor();
             this.size = new Size(8, 8);
@@ -39,10 +39,10 @@ namespace Microorganisms.Core
 
         #endregion Initialization
 
-        public override void Draw(Size delta)
+        public override void Draw(Graphics graphics, Size delta)
         {
             var rectangle = new Rectangle(this.Position + delta, this.Size);
-            this.graphics.FillEllipse(this.brush, rectangle);
+            graphics.FillEllipse(this.brush, rectangle);
         }
 
         public override void Dispose()

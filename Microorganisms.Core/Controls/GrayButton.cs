@@ -6,7 +6,6 @@ namespace Microorganisms.Core.Controls
     public abstract class GrayButton
     {
         private Brush backgroundBrush;
-        protected Graphics graphics;
         protected Pen contentPen;
 
 
@@ -21,9 +20,8 @@ namespace Microorganisms.Core.Controls
 
         #region Initialization
 
-        public GrayButton(Graphics graphics, Size size)
+        public GrayButton(Size size)
         {
-            this.graphics = graphics;
             this.Size = size;
 
             this.InitializeGraphics();
@@ -40,26 +38,26 @@ namespace Microorganisms.Core.Controls
 
         #region Draw
 
-        public void Draw()
+        public void Draw(Graphics graphics)
         {
-            this.DrawBackground();
-            this.DrawContent();
-            this.DrawBorder();
+            this.DrawBackground(graphics);
+            this.DrawContent(graphics);
+            this.DrawBorder(graphics);
         }
 
-        private void DrawBackground()
-        {
-            var rectangle = new Rectangle(this.Position, this.Size);
-            this.graphics.FillEllipse(this.backgroundBrush, rectangle);
-        }
-
-        private void DrawBorder()
+        private void DrawBackground(Graphics graphics)
         {
             var rectangle = new Rectangle(this.Position, this.Size);
-            this.graphics.DrawEllipse(Pens.DarkGray, rectangle);
+            graphics.FillEllipse(this.backgroundBrush, rectangle);
         }
 
-        protected abstract void DrawContent();
+        private void DrawBorder(Graphics graphics)
+        {
+            var rectangle = new Rectangle(this.Position, this.Size);
+            graphics.DrawEllipse(Pens.DarkGray, rectangle);
+        }
+
+        protected abstract void DrawContent(Graphics graphics);
 
         #endregion Draw
     }

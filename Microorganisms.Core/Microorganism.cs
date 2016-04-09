@@ -7,7 +7,6 @@ namespace Microorganisms.Core
     public abstract class Microorganism : IDisposable
     {
         private int mass;
-        protected Graphics graphics;
 
 
         public int Mass
@@ -42,9 +41,8 @@ namespace Microorganisms.Core
         public Point Aceleration { get; set; }
 
 
-        public Microorganism(Graphics graphics, int mass)
+        public Microorganism(int mass)
         {
-            this.graphics = graphics;
             this.Mass = mass;
         }
 
@@ -62,7 +60,7 @@ namespace Microorganisms.Core
                 this.Position.Y <= 0 || this.Position.Y + this.Size.Height >= world.Size.Height;
         }
 
-        public abstract void Draw(Size delta);
+        public abstract void Draw(Graphics graphics, Size delta);
 
         public abstract void Dispose();
     }

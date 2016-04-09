@@ -10,9 +10,8 @@ namespace Microorganisms.UI
     {
         private float deltaFPSTime = 0;
         private Stopwatch watch = new Stopwatch();
-        private Graphics graphics;
         private World world;
-        private Core.Screen screen;
+        private UserScreen screen;
         private Cell cell;
 
 
@@ -22,15 +21,22 @@ namespace Microorganisms.UI
         {
             InitializeComponent();
 
-            this.graphics = this.CreateGraphics();
+            this.PreventFlickering();
+        }
+
+        private void PreventFlickering()
+        {
+            this.SetStyle(ControlStyles.UserPaint, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.DoubleBuffer, true);
         }
 
         private void BoardForm_Load(object sender, EventArgs e)
         {
-            this.cell = new Cell(this.graphics);
-            var size = new Size(this.ClientSize.Width * 2, this.ClientSize.Height * 2);
-            this.world = new World(this.graphics, size, this.ClientSize);
-            this.screen = new Core.Screen(this.graphics, this.ClientSize);
+            this.cell = new Cell();
+            Size size = new Size(this.ClientSize.Width * 2, this.ClientSize.Height * 2);
+            this.world = new World(size, this.ClientSize);
+            this.screen = new UserScreen(this.ClientSize);
             this.world.Add(this.cell);
 
             this.timer.Start();
@@ -49,14 +55,16 @@ namespace Microorganisms.UI
         private void BoardForm_Paint(object sender, PaintEventArgs e)
         {
             //this.UpdateGame();
-            this.CalculateFps();
+            //this.CalculateFps();
+            
+            this.world.Draw(e.Graphics);
+            this.screen.Draw(e.Graphics);
         }
 
         private void UpdateGame()
         {
             this.world.Update();
-            this.world.Draw();
-            this.screen.Draw();
+            this.Invalidate();
         }
 
         private void CalculateFps()

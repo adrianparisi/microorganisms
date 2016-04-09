@@ -8,7 +8,6 @@ namespace Microorganisms.Core.Controls
     /// </summary>
     public class Joystick
     {
-        private Graphics graphics;
         private bool visible;
         private JoystickComponent foot;
         private JoystickComponent stick;
@@ -20,16 +19,15 @@ namespace Microorganisms.Core.Controls
 
         #region Initialization
 
-        public Joystick(Graphics graphics)
+        public Joystick()
         {
-            this.graphics = graphics;
             this.InitializeGraphics();
         }
 
         private void InitializeGraphics()
         {
-            this.foot = new JoystickComponent(this.graphics, new Size(60, 60));
-            this.stick = new JoystickComponent(this.graphics, new Size(30, 30));
+            this.foot = new JoystickComponent(new Size(60, 60));
+            this.stick = new JoystickComponent(new Size(30, 30));
             this.visible = false;
         }
 
@@ -90,12 +88,12 @@ namespace Microorganisms.Core.Controls
 
         #endregion Behaviour
 
-        public void Draw()
+        public void Draw(Graphics graphics)
         {
             if (this.visible)
             {
-                this.foot.Draw();
-                this.stick.Draw();
+                this.foot.Draw(graphics);
+                this.stick.Draw(graphics);
             }
         }
     }

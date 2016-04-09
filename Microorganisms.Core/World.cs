@@ -14,7 +14,6 @@ namespace Microorganisms.Core
     public class World
     {
         private Random random = new Random();
-        private Graphics graphics;
         private TextureBrush backgroundBrush;
         private List<Microorganism> microorganisms = new List<Microorganism>();
         private Cell cell;
@@ -31,19 +30,18 @@ namespace Microorganisms.Core
 
         #region Initialization
 
-        public World(Graphics graphics, Size world, Size client)
+        public World(Size world, Size client)
         {
             this.Size = world;
             this.Client = client;
 
-            this.InitializeGraphics(graphics);
+            this.InitializeGraphics();
             this.InitializeNutrients();
             this.InitializeVirus();            
         }
 
-        private void InitializeGraphics(Graphics graphics)
+        private void InitializeGraphics()
         {
-            this.graphics = graphics;
             this.backgroundBrush = new TextureBrush(Resources.Background);
             this.backgroundBrush.WrapMode = WrapMode.TileFlipXY;
         }
@@ -74,7 +72,7 @@ namespace Microorganisms.Core
             
             while (nutrient == null || nutrient.Collision(this))
             {
-                nutrient = new Nutrient(this.graphics);
+                nutrient = new Nutrient();
                 nutrient.Position = this.GetRandomPosition();
             }
 
@@ -87,7 +85,7 @@ namespace Microorganisms.Core
 
             while (virus == null || virus.Collision(this))
             {
-                virus = new Virus(this.graphics);
+                virus = new Virus();
                 virus.Position = this.GetRandomPosition();
             }
 
@@ -179,15 +177,15 @@ namespace Microorganisms.Core
 
         #region Draw
 
-        public void Draw()
+        public void Draw(Graphics graphics)
         {
             Size delta = this.GetDeltaClient();
-            this.DrawBackground(delta);
-            this.DrawBorder(delta);
-            this.Draw<Nutrient>(delta);
-            this.Draw<EjectedMass>(delta);
-            this.Draw<Cell>(delta);
-            this.Draw<Virus>(delta);
+            this.DrawBackground(graphics, delta);
+            this.DrawBorder(graphics, delta);
+            this.Draw<Nutrient>(graphics, delta);
+            this.Draw<EjectedMass>(graphics, delta);
+            this.Draw<Cell>(graphics, delta);
+            this.Draw<Virus>(graphics, delta);
         }
 
         /// <summary>
@@ -202,24 +200,24 @@ namespace Microorganisms.Core
             return new Size(x, y);
         }
 
-        private void DrawBackground(Size delta)
+        private void DrawBackground(Graphics graphics, Size delta)
         {
             var rectangle = new Rectangle(Point.Empty - this.Size + delta, this.Size.Multiply(4));
-            this.graphics.FillRectangle(this.backgroundBrush, rectangle);
+            graphics.FillRectangle(this.backgroundBrush, rectangle);
         }
 
-        private void DrawBorder(Size delta)
+        private void DrawBorder(Graphics graphics, Size delta)
         {
             var rectangle = new Rectangle(Point.Empty + delta, this.Size);
-            this.graphics.DrawRectangle(Pens.Gray, rectangle);
+            graphics.DrawRectangle(Pens.Gray, rectangle);
         }
 
-        private void Draw<T>(Size delta) where T : Microorganism
+        private void Draw<T>(Graphics graphics, Size delta) where T : Microorganism
         {
             var microorganisms = this.microorganisms.OfType<T>();
 
             foreach (Microorganism microorganism in microorganisms)
-                microorganism.Draw(delta);
+                microorganism.Draw(graphics, delta);
         }
 
         #endregion Draw

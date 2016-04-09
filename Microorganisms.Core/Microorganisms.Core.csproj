@@ -57,7 +57,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Screen.cs" />
+    <Compile Include="UserScreen.cs" />
     <Compile Include="Virus.cs" />
     <Compile Include="World.cs" />
     <Compile Include="Cell.cs" />

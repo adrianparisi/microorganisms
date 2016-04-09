@@ -6,10 +6,9 @@ namespace Microorganisms.Core
     /// <summary>
     /// Handle the user screen an their components.
     /// </summary>
-    public class Screen
+    public class UserScreen
     {
         private const int padding = 55;
-        private Graphics graphics;
         private Size size;
         private Size buttonSize;
 
@@ -21,9 +20,8 @@ namespace Microorganisms.Core
 
         #region Initialization
 
-        public Screen(Graphics graphics, Size size)
+        public UserScreen(Size size)
         {
-            this.graphics = graphics;
             this.size = size;
 
             this.buttonSize = new Size(60, 60);
@@ -35,32 +33,32 @@ namespace Microorganisms.Core
 
         private void InitializeAim()
         {
-            this.Aim = new Aim(this.graphics, this.buttonSize);
+            this.Aim = new Aim(this.buttonSize);
 
-            int x = this.size.Width - this.buttonSize.Width - Screen.padding;
-            int y = this.size.Height - Screen.padding;
+            int x = this.size.Width - this.buttonSize.Width - UserScreen.padding;
+            int y = this.size.Height - UserScreen.padding;
             this.Aim.Center = new Point(x, y);
         }
 
         private void InitializeDivider()
         {
-            int x = this.size.Width - Screen.padding;
-            int y = this.size.Height - this.buttonSize.Height - Screen.padding;
-            this.Divider = new Divider(this.graphics, this.buttonSize, new Point(x, y));
+            int x = this.size.Width - UserScreen.padding;
+            int y = this.size.Height - this.buttonSize.Height - UserScreen.padding;
+            this.Divider = new Divider(this.buttonSize, new Point(x, y));
         }
 
         private void InitializeJoystick()
         {
-            this.Joistick = new Joystick(this.graphics);
+            this.Joistick = new Joystick();
         }
 
         #endregion Initialization
 
-        public void Draw()
+        public void Draw(Graphics graphics)
         {
-            this.Aim.Draw();
-            this.Divider.Draw();
-            this.Joistick.Draw();
+            this.Aim.Draw(graphics);
+            this.Divider.Draw(graphics);
+            this.Joistick.Draw(graphics);
         }
     }
 }

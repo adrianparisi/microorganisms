@@ -12,13 +12,13 @@ namespace Microorganisms.Core
         private static Bitmap image = Resources.Virus64x64;
 
 
-        public Virus(Graphics graphics)
-            : base(graphics, 140) { }
+        public Virus()
+            : base(140) { }
 
-        public override void Draw(Size delta)
+        public override void Draw(Graphics graphics, Size delta)
         {
             var rectangle = new Rectangle(this.Position + delta, this.Size);
-            this.graphics.DrawImage(Virus.image, rectangle);
+            graphics.DrawImage(Virus.image, rectangle);
         }
 
         public override void Dispose() { }
