@@ -8,14 +8,17 @@ namespace Microorganisms.Core
     /// <seealso cref="Microorganisms.Core.Microorganism" />
     public class EjectedMass : Microorganism
     {
-        private static Brush borderBrush = new SolidBrush(Color.Sienna);
-        private static Brush backgroundBrush = new SolidBrush(Color.SaddleBrown);
+        private Pen borderPen;
+        private Brush backgroundBrush;
 
 
         #region Initialization
 
         public EjectedMass(Graphics graphics, int mass)
-            : base(graphics, EjectedMass.ReduceMass(mass)) { }
+            : base(graphics, EjectedMass.ReduceMass(mass))
+        {
+            this.InitializeGraphics();
+        }
 
         /// <summary>
         /// Reduces the quantity of mass that the cells eject.
@@ -24,6 +27,12 @@ namespace Microorganisms.Core
         private static int ReduceMass(int mass)
         {
             return (int)(mass / 1.2);
+        }
+
+        private void InitializeGraphics()
+        {
+            this.borderPen = new Pen(Color.SaddleBrown, 4);
+            this.backgroundBrush = new SolidBrush(Color.Sienna);
         }
 
         #endregion Initialization
@@ -39,18 +48,22 @@ namespace Microorganisms.Core
         private void DrawBackground(Size delta)
         {
             var rectangle = new Rectangle(this.Position + delta, this.Size);
-            this.graphics.FillEllipse(EjectedMass.backgroundBrush, rectangle);
+            this.graphics.FillEllipse(this.backgroundBrush, rectangle);
         }
 
         private void DrawBorder(Size delta)
         {
             var rectangle = new Rectangle(this.Position + delta, this.Size);
             rectangle.Inflate(-1, -1);
-            this.graphics.FillEllipse(EjectedMass.borderBrush, rectangle);
+            this.graphics.DrawEllipse(this.borderPen, rectangle);
         }
 
         #endregion Draw
 
-        public override void Dispose() { }
+        public override void Dispose()
+        {
+            this.backgroundBrush.Dispose();
+            this.borderPen.Dispose();
+        }
     }
 }
