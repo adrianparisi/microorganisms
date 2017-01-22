@@ -120,7 +120,7 @@ namespace Microorganisms.Core
 
         public bool CanEat(Microorganism microorganism)
         {
-            return this.Mass * 1.25 > microorganism.Mass;
+            return this.Mass > microorganism.Mass * 1.25;
         }
 
         #endregion Collisions
