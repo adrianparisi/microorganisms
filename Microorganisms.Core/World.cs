@@ -48,30 +48,12 @@ namespace Microorganisms.Core
         
         #region Add
 
-        public void AddNutrient()
+        public void AddMicroorganism(Microorganism microorganism)
         {
-            Nutrient nutrient = null;
-            
-            while (nutrient == null || nutrient.Collision(this))
-            {
-                nutrient = new Nutrient();
-                nutrient.Position = this.GetRandomPosition();
-            }
+            while (microorganism.Collision(this))
+                microorganism.Position = this.GetRandomPosition();
 
-            this.microorganisms.Add(nutrient);
-        }
-
-        public void AddVirus()
-        {
-            Virus virus = null;
-
-            while (virus == null || virus.Collision(this))
-            {
-                virus = new Virus();
-                virus.Position = this.GetRandomPosition();
-            }
-
-            this.microorganisms.Add(virus);
+            this.microorganisms.Add(microorganism);
         }
 
         public void Add(Cell cell)
@@ -131,10 +113,10 @@ namespace Microorganisms.Core
             Type type = microorganism.GetType();
 
             if (microorganism.GetType() == typeof(Nutrient))
-                this.AddNutrient();
+                this.AddMicroorganism(new Nutrient());
 
             else if (microorganism.GetType() == typeof(Virus))
-                this.AddVirus();
+                this.AddMicroorganism(new Virus());
 
             microorganism.Dispose();
         }

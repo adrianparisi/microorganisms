@@ -52,6 +52,7 @@
     <Compile Include="Controls\JoystickComponent.cs" />
     <Compile Include="Controls\Joystick.cs" />
     <Compile Include="EjectedMass.cs" />
+    <Compile Include="Enemy.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Nutrient.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

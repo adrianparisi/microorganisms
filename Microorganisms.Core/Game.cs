@@ -21,6 +21,7 @@ namespace Microorganisms.Core
             this.world.Add(this.cell);
             this.InitializeNutrients();
             this.InitializeVirus();
+            this.InitializeEnemies();
         }
 
         private void InitializeNutrients()
@@ -28,7 +29,7 @@ namespace Microorganisms.Core
             const int nutrientsCount = 180;
 
             for (int i = 0; i < nutrientsCount; i++)
-                this.world.AddNutrient();
+                this.world.AddMicroorganism(new Nutrient());
         }
 
         private void InitializeVirus()
@@ -36,7 +37,15 @@ namespace Microorganisms.Core
             const int virusCount = 10;
 
             for (int i = 0; i < virusCount; i++)
-                this.world.AddVirus();
+                this.world.AddMicroorganism(new Virus());
+        }
+
+        private void InitializeEnemies()
+        {
+            const int enemiesCount = 10;
+
+            for (int i = 0; i < enemiesCount; i++)
+                this.world.AddMicroorganism(new Enemy());
         }
 
         #endregion Initialization
