@@ -46,7 +46,7 @@ namespace Microorganisms.Core
             this.Mass = mass;
         }
 
-        public void Update(World world)
+        public virtual void Update(World world)
         {
             Point velocity = this.Velocity + new Size(this.Aceleration);
             Point position = this.Position + new Size(this.Velocity);
@@ -85,7 +85,7 @@ namespace Microorganisms.Core
             return this.Collision(this.Position, world);
         }
 
-        private bool Collision(Point position, World world)
+        protected bool Collision(Point position, World world)
         {
             return position.X <= 0 || position.X + this.Size.Width >= world.Size.Width ||
                 position.Y <= 0 || position.Y + this.Size.Height >= world.Size.Height;

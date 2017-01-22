@@ -31,5 +31,39 @@ namespace Microorganisms.Core
         }
 
         #endregion Initialization
+
+        public override void Update(World world)
+        {
+            Point position = this.Position + new Size(this.Velocity);
+
+            if (!this.Collision(position, world))
+                this.Position = position;
+
+            else this.Bounce(world);
+        }
+
+        private void Bounce(World world)
+        {
+            Point position = this.Position + new Size(this.Velocity);
+            Point horizontal = new Point(position.X, this.Position.Y);
+
+            if (!this.Collision(horizontal, world))
+            {
+                this.Velocity = new Point(this.Velocity.X, -1 * this.Velocity.Y);
+                this.Position = this.Position + new Size(this.Velocity);
+
+                return;
+            }
+
+            Point vertical = new Point(this.Position.X, position.Y);
+
+            if (!this.Collision(vertical, world))
+            {
+                this.Velocity = new Point(-1 * this.Velocity.X, this.Velocity.Y);
+                this.Position = this.Position + new Size(this.Velocity);
+
+                return;
+            }
+        }
     }
 }

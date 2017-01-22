@@ -133,7 +133,7 @@ namespace Microorganisms.Core
 
         private void Eat()
         {
-            IEnumerable<Cell> cells = this.microorganisms.OfType<Cell>();
+            List<Cell> cells = this.microorganisms.OfType<Cell>().ToList();
 
             foreach (Cell cell in cells)
             {
