@@ -95,7 +95,7 @@ namespace Microorganisms.Core
         public void Add(Cell cell)
         {
             if (cell == null)
-                throw new ArgumentNullException("cell");
+                throw new ArgumentNullException(nameof(cell));
 
             while (cell.Collision(this))
                 cell.Position = this.GetRandomPosition();
@@ -112,7 +112,7 @@ namespace Microorganisms.Core
         public void Add(EjectedMass mass)
         {
             if (mass == null)
-                throw new ArgumentNullException("mass");
+                throw new ArgumentNullException(nameof(mass));
 
             this.microorganisms.Add(mass);
         }
@@ -124,7 +124,7 @@ namespace Microorganisms.Core
         public List<Microorganism> GetFood(Cell cell)
         {
             if (cell == null)
-                throw new ArgumentNullException("cell");
+                throw new ArgumentNullException(nameof(cell));
 
             List<Microorganism> removed = this.microorganisms
                 .Where(m => cell.CanEat(m))
