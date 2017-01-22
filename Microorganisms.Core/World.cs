@@ -91,9 +91,9 @@ namespace Microorganisms.Core
                 throw new ArgumentNullException(nameof(cell));
 
             List<Microorganism> removed = this.microorganisms
-                .Where(m => cell.CanEat(m))
-                .Where(m => cell.Collision(m))
                 .Where(m => cell != m)
+                .Where(m => cell.Collision(m))
+                .Where(m => cell.CanEat(m))
                 .ToList();
 
             foreach (Microorganism microorganism in removed)
