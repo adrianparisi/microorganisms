@@ -133,10 +133,15 @@ namespace Microorganisms.Core
 
         private void Eat()
         {
-            List<Microorganism> microorganisms = this.GetFood(this.cell);
+            IEnumerable<Cell> cells = this.microorganisms.OfType<Cell>();
 
-            if (microorganisms != null)
-                this.cell.Eat(microorganisms);
+            foreach (Cell cell in cells)
+            {
+                List<Microorganism> microorganisms = this.GetFood(cell);
+
+                if (microorganisms != null)
+                    cell.Eat(microorganisms);
+            }
         }
 
         #region Draw
