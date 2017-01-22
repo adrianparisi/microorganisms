@@ -35,9 +35,7 @@ namespace Microorganisms.Core
             this.Size = world;
             this.Client = client;
 
-            this.InitializeGraphics();
-            this.InitializeNutrients();
-            this.InitializeVirus();            
+            this.InitializeGraphics();    
         }
 
         private void InitializeGraphics()
@@ -46,27 +44,11 @@ namespace Microorganisms.Core
             this.backgroundBrush.WrapMode = WrapMode.TileFlipXY;
         }
 
-        private void InitializeNutrients()
-        {
-            const int nutrientsCount = 180;
-
-            for (int i = 0; i < nutrientsCount; i++)
-                this.AddNutrient();
-        }
-
-        private void InitializeVirus()
-        {
-            const int virusCount = 10;
-
-            for (int i = 0; i < virusCount; i++)
-                this.AddVirus();
-        }
-
         #endregion Initialization
         
         #region Add
 
-        private void AddNutrient()
+        public void AddNutrient()
         {
             Nutrient nutrient = null;
             
@@ -79,7 +61,7 @@ namespace Microorganisms.Core
             this.microorganisms.Add(nutrient);
         }
 
-        private void AddVirus()
+        public void AddVirus()
         {
             Virus virus = null;
 

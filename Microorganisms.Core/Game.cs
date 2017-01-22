@@ -11,13 +11,35 @@ namespace Microorganisms.Core
         private Cell cell;
 
 
+        #region Initialization
+
         public Game(Size clientSize, Size worldSize)
         {
-            this.cell = new Cell();
             this.world = new World(worldSize, clientSize);
             this.screen = new UserScreen(clientSize);
+            this.cell = new Cell();
             this.world.Add(this.cell);
+            this.InitializeNutrients();
+            this.InitializeVirus();
         }
+
+        private void InitializeNutrients()
+        {
+            const int nutrientsCount = 180;
+
+            for (int i = 0; i < nutrientsCount; i++)
+                this.world.AddNutrient();
+        }
+
+        private void InitializeVirus()
+        {
+            const int virusCount = 10;
+
+            for (int i = 0; i < virusCount; i++)
+                this.world.AddVirus();
+        }
+
+        #endregion Initialization
 
         #region Keyboard
 
