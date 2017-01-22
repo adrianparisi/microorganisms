@@ -1,8 +1,8 @@
 ﻿using Microorganisms.Core;
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Windows.Forms;
+using SomeTools;
 
 namespace Microorganisms.UI
 {
@@ -10,9 +10,7 @@ namespace Microorganisms.UI
     {
         private float deltaFPSTime = 0;
         private Stopwatch watch = new Stopwatch();
-        private World world;
-        private UserScreen screen;
-        private Cell cell;
+        Game game;
 
 
         #region Initialization
@@ -20,7 +18,6 @@ namespace Microorganisms.UI
         public BoardForm()
         {
             InitializeComponent();
-
             this.PreventFlickering();
         }
 
@@ -33,11 +30,7 @@ namespace Microorganisms.UI
 
         private void BoardForm_Load(object sender, EventArgs e)
         {
-            this.cell = new Cell();
-            Size size = new Size(this.ClientSize.Width * 2, this.ClientSize.Height * 2);
-            this.world = new World(size, this.ClientSize);
-            this.screen = new UserScreen(this.ClientSize);
-            this.world.Add(this.cell);
+            this.game = new Game(this.ClientSize, this.ClientSize.Multiply(2));
 
             this.timer.Start();
             this.watch.Start();
@@ -54,16 +47,13 @@ namespace Microorganisms.UI
 
         private void BoardForm_Paint(object sender, PaintEventArgs e)
         {
-            //this.UpdateGame();
             //this.CalculateFps();
-            
-            this.world.Draw(e.Graphics);
-            this.screen.Draw(e.Graphics);
+            this.game.Draw(e.Graphics);
         }
 
         private void UpdateGame()
         {
-            this.world.Update();
+            this.game.Update();
             this.Invalidate();
         }
 
@@ -88,24 +78,18 @@ namespace Microorganisms.UI
         {
             switch (e.KeyCode)
             {
-                case Keys.W:
-                    EjectedMass mass = this.cell.EjectMass();
-
-                    if (mass != null)
-                        this.world.Add(mass);
-                    break;
-
-                case Keys.Space:
-                    this.cell.Divide();
-                    break;
-
                 case Keys.Oem5: // to the left of the 1 key
                     this.lblFps.Visible = !this.lblFps.Visible;
                     this.label1.Visible = !this.label1.Visible;
                     break;
-                    
+
                 case Keys.Escape:
+                    this.Dispose();
                     this.Close();
+                    break;
+
+                default:
+                    this.game.OnBoardFormKeyDown(e);
                     break;
             }
         }
@@ -116,26 +100,22 @@ namespace Microorganisms.UI
 
         private void BoardForm_MouseDown(object sender, MouseEventArgs e)
         {
-            this.screen.Joistick.Enable(e.Location);
-        }
-
-        private void BoardForm_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                this.screen.Joistick.Move(e.Location);
-                this.cell.SetDirection(this.screen.Joistick.Direction);
-            }
+            this.game.OnMouseDown(e);
         }
 
         private void BoardForm_MouseUp(object sender, MouseEventArgs e)
         {
-            this.screen.Joistick.Disable();
+            this.game.OnMouseUp(e);
+        }
+
+        private void BoardForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.game.OnMouseMove(e);
         }
 
         private void BoardForm_MouseLeave(object sender, EventArgs e)
         {
-            this.screen.Joistick.Disable();
+            this.game.OnMouseLeave(e);
         }
 
         #endregion Mouse
