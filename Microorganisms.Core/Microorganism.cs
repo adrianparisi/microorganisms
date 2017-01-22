@@ -46,18 +46,49 @@ namespace Microorganisms.Core
             this.Mass = mass;
         }
 
-        public void Update()
+        public void Update(World world)
         {
-            this.Velocity = this.Velocity + new Size(this.Aceleration);
-            this.Position = this.Position + new Size(this.Velocity);
+            Point velocity = this.Velocity + new Size(this.Aceleration);
+            Point position = this.Position + new Size(this.Velocity);
 
-            // TODO check world collision
+            if (!this.Collision(position, world))
+            {
+                this.Velocity = velocity;
+                this.Position = position;
+
+                return;
+            }
+
+            Point horizontal = new Point(position.X, this.Position.Y);
+
+            if (!this.Collision(horizontal, world))
+            {
+                this.Velocity = velocity;
+                this.Position = horizontal;
+
+                return;
+            }
+
+            Point vertical = new Point(this.Position.X, position.Y);
+
+            if (!this.Collision(vertical, world))
+            {
+                this.Velocity = velocity;
+                this.Position = vertical;
+
+                return;
+            }
         }
 
         public bool Collision(World world)
         {
-            return this.Position.X <= 0 || this.Position.X + this.Size.Width >= world.Size.Width ||
-                this.Position.Y <= 0 || this.Position.Y + this.Size.Height >= world.Size.Height;
+            return this.Collision(this.Position, world);
+        }
+
+        private bool Collision(Point position, World world)
+        {
+            return position.X <= 0 || position.X + this.Size.Width >= world.Size.Width ||
+                position.Y <= 0 || position.Y + this.Size.Height >= world.Size.Height;
         }
 
         public abstract void Draw(Graphics graphics, Size delta);

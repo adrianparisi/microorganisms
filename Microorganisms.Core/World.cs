@@ -162,7 +162,7 @@ namespace Microorganisms.Core
         public void Update()
         {
             foreach (Microorganism microorganism in this.microorganisms)
-                microorganism.Update();
+                microorganism.Update(this);
 
             this.Eat();
         }
