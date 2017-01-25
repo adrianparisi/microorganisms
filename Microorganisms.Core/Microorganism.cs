@@ -65,8 +65,6 @@ namespace Microorganisms.Core
             {
                 this.Velocity = velocity;
                 this.Position = horizontal;
-
-                return;
             }
 
             Point vertical = new Point(this.Position.X, position.Y);
@@ -75,8 +73,6 @@ namespace Microorganisms.Core
             {
                 this.Velocity = velocity;
                 this.Position = vertical;
-
-                return;
             }
         }
 
