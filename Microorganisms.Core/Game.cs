@@ -89,7 +89,8 @@ namespace Microorganisms.Core
 
         public void OnMouseDown(MouseEventArgs e)
         {
-            this.screen.Joistick.Enable(e.Location);
+            if (!this.pause)
+                this.screen.Joistick.Enable(e.Location);
         }
 
         public void OnMouseUp(MouseEventArgs e)
@@ -99,7 +100,7 @@ namespace Microorganisms.Core
 
         public void OnMouseMove(MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && !this.pause)
             {
                 this.screen.Joistick.Move(e.Location);
                 this.cell.SetDirection(this.screen.Joistick.Direction);
@@ -115,7 +116,8 @@ namespace Microorganisms.Core
 
         public void Update()
         {
-            this.world.Update();
+            if (!this.pause)
+                this.world.Update();
         }
 
         public void Draw(Graphics graphics)
