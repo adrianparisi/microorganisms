@@ -1,7 +1,7 @@
 ﻿using Microorganisms.Core.Controls;
 using System.Drawing;
 
-namespace Microorganisms.Core
+namespace Microorganisms.Core.Screens
 {
     /// <summary>
     /// Handle the user screen an their components.

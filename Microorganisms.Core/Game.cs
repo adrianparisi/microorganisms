@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microorganisms.Core.Screens;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -6,9 +7,11 @@ namespace Microorganisms.Core
 {
     public class Game
     {
+        private bool pause;
         private World world;
         private UserScreen screen;
         private Cell cell;
+        private PauseScreen pauseScreen;
 
 
         #region Initialization
@@ -22,6 +25,7 @@ namespace Microorganisms.Core
             this.InitializeNutrients();
             this.InitializeVirus();
             this.InitializeEnemies();
+            this.pauseScreen = new PauseScreen(clientSize);
         }
 
         private void InitializeNutrients()
@@ -56,6 +60,10 @@ namespace Microorganisms.Core
         {
             switch (e.KeyCode)
             {
+                case Keys.Pause:
+                    this.Pause();
+                    break;
+
                 case Keys.W:
                     EjectedMass mass = this.cell.EjectMass();
 
@@ -70,6 +78,12 @@ namespace Microorganisms.Core
         }
 
         #endregion Keyboard
+
+        private void Pause()
+        {
+            this.pause = !this.pause;
+            this.pauseScreen.Enable = this.pause;
+        }
 
         #region Mouse
 
@@ -108,6 +122,7 @@ namespace Microorganisms.Core
         {
             this.world.Draw(graphics);
             this.screen.Draw(graphics);
+            this.pauseScreen.Draw(graphics);
         }
     }
 }
